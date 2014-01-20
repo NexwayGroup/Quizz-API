@@ -1,0 +1,114 @@
+<div class="page-header">
+    <h1>Add question</h1>
+</div>
+
+<form id="form_question" action="/question/add/post" method="post" role="form">
+
+
+      <input
+            id="form_question_data"
+            type="hidden"
+            name="data"
+            value="<?php echo htmlentities(json_encode($form)); ?>"
+      >
+    
+    <button type="submit" class="btn btn-primary btn-lg col-lg-12">Submit Question</button>
+    <br />
+    <br />
+
+    <?php if (isset($categories)): ?>
+
+      <select name="category_id" class="form-control">
+
+        <option value="" disabled selected>Choose Category</option> 
+
+        <?php foreach ($categories as $category): ?>
+            
+            <?php $subcategories = $category->subcategories(); ?>
+
+            <?php if (!is_null($subcategories)): ?>
+
+                <optgroup label="<?php echo $category->get('category'); ?>">
+                    <?php foreach ($subcategories as $subcategory): ?>
+                        <?php $id = $subcategory->get('id'); ?>
+                        <option value="<?php echo $id ?>">
+                            <?php echo $subcategory->get('category'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </optgroup>
+
+            <?php endif; ?>
+        <?php endforeach; ?>
+      </select>
+    <?php endif; ?>
+    <br />
+
+    <input name="question" type="text" placeholder="Question" class="form-control">
+    <input name="question_id" type="hidden" class="form-control">
+    <br />
+
+    <div class="row">
+
+      <div class="col-lg-6">
+
+        <span class="label label-success">Valid</span>
+        <br />
+        <br />
+
+        <button
+                id="answer-valid-add"
+                type="button"
+                onclick="quiz.answer.addValid()"
+                class="btn btn-default"
+        >+</button>
+        <br />
+
+      </div><!-- /.col-lg-6 -->
+
+      <div class="col-lg-6 pull-righ">
+
+        <span class="label label-danger" style="float: right !important;">Invalid</span>
+        <br />
+        <br />
+
+        <button
+                id="answer-invalid-add"
+                type="button"
+                onclick="quiz.answer.addInvalid()"
+                class="btn btn-default pull-righ"
+                style="float: right !important;"
+        >+</button>
+        <br />
+
+      </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
+
+    <br />
+
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <span class="label label-info">References</span>
+        <br />
+        <br />
+
+        <button
+                id="answer-reference-add"
+                type="button"
+                onclick="quiz.answer.addReference()"
+                class="btn btn-default"
+        >+</button>
+        <br />
+
+      </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
+
+    <br />
+    <br />
+
+    <button type="submit" class="btn btn-primary btn-lg col-lg-12">Submit Question</button>
+
+</form>
